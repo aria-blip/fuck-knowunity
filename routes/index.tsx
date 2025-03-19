@@ -18,7 +18,7 @@ export default function Home() {
         />
    <div class="header-container">
     <div class="decorative-line"></div>
-    <h1>Welcome to <span class="blue-text">F***</span> <span class="yellow-highlight">Knowunity</span></h1>
+    <h1>Welcome to <span class="blue-text"> F***</span> <span class="yellow-highlight">Knowunity</span></h1>
     <div class="decorative-line"></div>
   </div>
   <br></br>
