@@ -7,7 +7,7 @@ export default function Home() {
   const count = useSignal(3);
   var thesig=useSignal("")
   return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
+    <div class="px-4 py-8 mx-auto ">
       <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
         <img
           class="my-6"
@@ -16,8 +16,13 @@ export default function Home() {
           height="128"
           alt="the Fresh logo: a sliced lemon dripping with juice"
         />
-        <h1 class="text-4xl font-bold">Welcome to FUCK KNOWUNITY  {thesig.value}</h1>
-        <Inputfield textvalue={thesig}></Inputfield>
+   <div class="header-container">
+    <div class="decorative-line"></div>
+    <h1>Welcome to <span class="blue-text">F***</span> <span class="yellow-highlight">Knowunity</span></h1>
+    <div class="decorative-line"></div>
+  </div>
+  <br></br>
+          <Inputfield textvalue={thesig}></Inputfield>
        {//<Counter count={count} />
        } 
       </div>

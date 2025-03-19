@@ -48,19 +48,31 @@ interface Props {
     }, [textvalue.value]); // Re-fetch when `count.value` changes
   
 
+
   return (
         <>
      
+
+
+
     <div class="input-container">
-        <span class="input-prefix">  `{'>'}` </span>
-        <input class="hacker-input"  onInput={(event:InputEvent
+    <input type="text"  onInput={(event:InputEvent
         )=> {const target = event.target as HTMLInputElement;
-          textvalue.value =extractUUID(target.value)  } } type="text" placeholder="Enter command..." autocomplete="off" /> 
-    </div>
+          textvalue.value =extractUUID(target.value)  } }  id="inputli" class="input-field" placeholder="Enter Link" />
+
+
+    <button class="search-button" onClick={ ()=> console.log( (document.getElementById("inputli") as HTMLInputElement).value)} >
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#806600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+  </div>
+
+
 
     <h2>{ extractUUID( textvalue.value ) }</h2>
     <div class="image-container">
-     <h1>{ textvalue.value} ss </h1> 
     {returnedlists(items.value)
     }
 </div>
@@ -72,8 +84,8 @@ function returnedlists (imageurl:string[]): preact.JSX.Element[] {
   for(var imurl of imageurl){
     listofdiv.push(
       <div class="image-item">
-        <h3>{imurl}jj</h3>
         <img src={imurl} ></img>
+
       {console.log("jjij")}
     </div>
     )
