@@ -6,6 +6,7 @@ import { ComponentChildren } from "preact";
 import { useSignal ,Signal} from "@preact/signals";
 import { ComponentChild } from "preact/src/index.d.ts";
 import { useEffect } from "preact/hooks";
+import { jsPDF } from "npm:jspdf";
 
 
 interface Props {
@@ -14,24 +15,26 @@ interface Props {
 
  export default function Inputfield({textvalue}:Props) {
     var items:Signal<string[]>=useSignal([])
+    var isvisible:Signal<string>=useSignal("none")
+
     useEffect(() => {
       
       async function fetchData() {
-        console.log("aa")
+        console.log("aa")   
 
       var res= await fetch("https://apiedge-eu-central-1.knowunity.com/knows/"+textvalue.value)
-      
-
-      res= await fetch("https://apiedge-eu-central-1.knowunity.com/knows/"+textvalue.value)
       var objectjson=await res.json()
-      
+      items.value=[]
       for (const page of objectjson.knowDocumentPages) {
         items.value=[...items.value,page.imageUrl] 
 
          console.log(page.imageUrl)
       
       }
-      
+      if(items.value.length>0){
+        isvisible.value="block"
+        console.log("we in da block")
+      }
 
 
       console.log("aa")
@@ -58,10 +61,9 @@ interface Props {
     <div class="input-container">
     <input type="text"  onInput={(event:InputEvent
         )=> {const target = event.target as HTMLInputElement;
-          textvalue.value =extractUUID(target.value)  } }  id="inputli" class="input-field" placeholder="Enter Link" />
+          textvalue.value =extractUUID(target.value)  } }  id="inputli" class="input-field" placeholder="Enter Link to download " />
 
-
-    <button class="search-button" onClick={ ()=> { 
+    <button class="search-button" onClick={ ()=> {  
           textvalue.value =extractUUID(      (document.getElementById("inputli") as HTMLInputElement).value 
         )   
     }  
@@ -76,6 +78,14 @@ interface Props {
 
 
     <h2>{ extractUUID( textvalue.value ) }</h2>
+    <button className="download-button" style={{display:isvisible.value}} onClick={async ()=> {
+
+const urlParams = items.value.map(url => `url=${encodeURIComponent(url)}`).join('&');
+globalThis.location.href = `../greet/download?${urlParams}`;
+ 
+}}>
+    Download as PDF
+  </button>
     <div class="image-container">
     {returnedlists(items.value)
     }
