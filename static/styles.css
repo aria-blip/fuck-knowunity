@@ -90,7 +90,27 @@ h1 {
     padding: 8px;
   }
 }
+.download-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff0b6, #a0c4ff); /* Light yellow to blue */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
 
+.download-btn i {
+  color: white;
+  font-size: 20px;
+}
+
+.download-btn:hover {
+  transform: scale(1.1);
+}
 
 /* Card Styling */
 .card {
@@ -253,5 +273,50 @@ h1 {
   .search-button {
     width: 45px;
     height: 45px;
+  }
+}
+
+.copy-input-container {
+  display: flex;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 70px;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.copy-input-field {
+  flex: 0.8;
+  height: 100%;
+  padding: 0 15px;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.copy-search-button {
+  flex: 0.2;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.copy-search-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* Ensure the container stretches full width on all screen sizes */
+@media screen and (max-width: 768px) {
+  .copy-input-container {
+    width: 100vw;
   }
 }

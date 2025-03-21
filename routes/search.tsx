@@ -12,6 +12,7 @@ import {
   } from "npm:google-sr";
   import list from "npm:postcss@8.4.35/lib/list";
   import CardModel from "../islands/cardfield.tsx";
+  import Searchfield from "../islands/searchbox.tsx";
 
 interface Data {
     foo: string[][];
@@ -32,7 +33,6 @@ class Link  {
   export const handler: Handlers<Data> = {
 
     async GET(req, ctx) {
-        console.log("search")
         var listoflinks:string[][]=[]
         
         const message = decodeURIComponent(ctx.url.searchParams.get("name") || "");
@@ -62,7 +62,6 @@ class Link  {
                 }
             }
           }
-          console.log(listoflinks+"listoflinks")
       return ctx.render({ foo: listoflinks });
     },
   };
@@ -70,7 +69,6 @@ export default  function Search(probs:PageProps<Data>) {
     const url = probs.url
     var listof:preact.JSX.Element[]=[];
     if (!probs.data || !probs.data.foo) {
-      console.log( probs.data)
       return <p>No data available.</p>;
   }
 
@@ -79,14 +77,15 @@ export default  function Search(probs:PageProps<Data>) {
         
 
         listof.push(
-            CardModel({cardtitle:a[1],carddescription:a[0],cardimage:a.slice(2)})
+              <CardModel cardtitle={a[1]} carddescription={a[0]} cardimage={a.slice(2)}></CardModel>
         )
-        console.log(a[2])
 
     }
 
     return (
             <>
+            <Searchfield></Searchfield>
+            <br></br>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
 </div>
@@ -102,10 +101,9 @@ async function  getfirstimage(codedurl:string):Promise<string[]>{
   var x:number=0;
   var imagesurl: string[]=[]
   try{
-  imagesurl.push(objectjson.knowDocumentPages[0].imageUrl)
-  imagesurl.push(objectjson.knowDocumentPages[1].imageUrl)
-  imagesurl.push(objectjson.knowDocumentPages[2].imageUrl)
-  imagesurl.push(objectjson.knowDocumentPages[3].imageUrl)
+  for(var i of objectjson.knowDocumentPages){
+    imagesurl.push(i.imageUrl)
+  }
 
   imagesurl=imagesurl.toReversed();
   }catch{

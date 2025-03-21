@@ -6,10 +6,10 @@ export const handler: Handlers = {
 
     async GET(req, ctx) {
       const doc = new jsPDF();
+      console.log("we got called now wait")
 
       const url = new URL(req.url);
       const urls = url.searchParams.getAll("url");      
-
       var i=0
       for(var imurl of urls){
 
