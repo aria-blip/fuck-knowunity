@@ -186,9 +186,33 @@ h1 {
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  
+}
+.download-button {
+  background: linear-gradient(135deg, #FFF9C4 0%, #90CAF9 100%);
+  color: #333;
+  font-weight: bold;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 16px;
+  position: sticky;
+  top: 10px;
+  z-index: 10;
 }
 
+.download-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.download-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 .search-button:hover {
   background: linear-gradient(145deg, #ffe8a6, #fff5c6);
   transform: scale(1.05);
