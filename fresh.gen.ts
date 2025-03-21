@@ -10,6 +10,7 @@ import * as $index from "./routes/index.tsx";
 import * as $search from "./routes/search.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $Inputfield from "./islands/Inputfield.tsx";
+import * as $cardfield from "./islands/cardfield.tsx";
 import * as $searchbox from "./islands/searchbox.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -25,6 +26,7 @@ const manifest = {
   islands: {
     "./islands/Counter.tsx": $Counter,
     "./islands/Inputfield.tsx": $Inputfield,
+    "./islands/cardfield.tsx": $cardfield,
     "./islands/searchbox.tsx": $searchbox,
   },
   baseUrl: import.meta.url,

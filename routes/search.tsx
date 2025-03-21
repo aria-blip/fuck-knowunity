@@ -6,9 +6,12 @@ import {
     search,
     OrganicResult, // Import the result types you need
     DictionaryResult,
-    ResultTypes, // Import to filter results by type
+    ResultTypes,
+    searchWithPages
+    // Import to filter results by type
   } from "npm:google-sr";
   import list from "npm:postcss@8.4.35/lib/list";
+  import CardModel from "../islands/cardfield.tsx";
 
 interface Data {
     foo: string[][];
@@ -53,10 +56,9 @@ class Link  {
               if (i && 'description' in i) {
                 if (i.description && i.link && i.title !== null) {
 
-                  var urlstring:string = await getfirstimage(extractUUID(i.link))
+                  var urlstring:string[] = await getfirstimage(extractUUID(i.link))
 
-
-                    listoflinks.push([i.description,urlstring,i.title]);
+                    listoflinks.push([i.description,i.title,...urlstring]);
                 }
             }
           }
@@ -74,17 +76,10 @@ export default  function Search(probs:PageProps<Data>) {
 
     for(var a of probs.data.foo){
         
+        
+
         listof.push(
-          <div class="card">
-          <div class="card-content">
-              <h2 class="card-title">{a[2]}</h2>
-              <p class="card-description">{a[0]}</p>
-          </div>
-          <div class="card-image">
-              <img src={a[1]}
-                   alt="Card Image"></img>
-          </div>
-      </div>
+            CardModel({cardtitle:a[1],carddescription:a[0],cardimage:a.slice(2)})
         )
         console.log(a[2])
 
@@ -100,13 +95,22 @@ export default  function Search(probs:PageProps<Data>) {
     )
 }
 
-async function  getfirstimage(codedurl:string):Promise<string>{
+async function  getfirstimage(codedurl:string):Promise<string[]>{
 
   var res= await fetch("https://apiedge-eu-central-1.knowunity.com/knows/"+codedurl)
   var objectjson=await res.json()
   var x:number=0;
-  var imagesurl: string
-  imagesurl=(objectjson.knowDocumentPages[0].imageUrl)
+  var imagesurl: string[]=[]
+  try{
+  imagesurl.push(objectjson.knowDocumentPages[0].imageUrl)
+  imagesurl.push(objectjson.knowDocumentPages[1].imageUrl)
+  imagesurl.push(objectjson.knowDocumentPages[2].imageUrl)
+  imagesurl.push(objectjson.knowDocumentPages[3].imageUrl)
+
+  imagesurl=imagesurl.toReversed();
+  }catch{
+    console.log("error")
+  }
   return imagesurl;
 
 }

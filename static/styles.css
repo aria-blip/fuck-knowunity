@@ -94,7 +94,7 @@ h1 {
 
 /* Card Styling */
 .card {
-  width: 320px;  /* Adjusted width */
+  width: 620px;  /* Adjusted width */
   max-width: 90%;  /* Ensures responsiveness */
   height: 250px;  /* Fixed height */
   background: linear-gradient(145deg, #fffcf0, #e6f7ff);
