@@ -186,6 +186,7 @@ h1 {
   align-items: center;
   cursor: pointer;
   transition: all 0.3s ease;
+  
 }
 
 .search-button:hover {
