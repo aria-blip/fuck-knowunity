@@ -11,11 +11,13 @@ import { jsPDF } from "npm:jspdf";
 
 interface Props {
   textvalue : Signal<string>; // 🔹 Accept signal as prop
+  imageslist:Signal<string[]>;
 }
 
- export default  function Inputfield({textvalue}:Props) {
+ export default  function Inputfield({textvalue,imageslist}:Props) {
     var items:Signal<string[]>=useSignal([])
     var isvisible:Signal<string>=useSignal("none")
+    
 
     useEffect(() => {
       
@@ -49,7 +51,35 @@ interface Props {
 
       
     }, [textvalue.value]); // Re-fetch when `count.value` changes
-  
+    
+      useEffect(() => {
+      
+      async function fetchData() {
+        console.log(imageslist.value.length)
+        if(imageslist.value.length>1){
+          var newlist=[]
+          for(var i of imageslist.value){
+            console.log(i)
+
+         //   var imgg=await fetch(i)
+          //  console.log(imgg)
+           // if(imgg.ok){
+              newlist.push(i)
+              items.value=newlist 
+              console.log("hiii")
+          //  }
+
+          }
+          isvisible.value="block"
+
+
+
+
+
+        }
+      }
+       fetchData();      
+    }, []); 
 
 
   return (
@@ -98,7 +128,7 @@ function returnedlists (imageurl:string[]): preact.JSX.Element[] {
   for(var imurl of imageurl){
     listofdiv.push(
       <div class="image-item">
-        <img src={imurl} ></img>
+        <img  onError={(e) => (e.currentTarget.style.display = "none")}  src={imurl} ></img>
 
       {console.log("jjij")}
     </div>

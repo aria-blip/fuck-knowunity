@@ -4,6 +4,7 @@ import { needsEncoding } from "$std/media_types/_util.ts";
 import { parseJsrSpecifier } from "https://jsr.io/@luca/esbuild-deno-loader/0.11.0/src/shared.ts";
 import puppeteer from "npm:puppeteer";
 import { useSignal ,Signal} from "@preact/signals";
+import { useEffect } from "preact/hooks";
 
 import {
     search,
@@ -41,14 +42,26 @@ class Link  {
         var listoflinks:string[][]=[]
         var ispuppet=false;
         const message = decodeURIComponent(ctx.url.searchParams.get("name") || "");
-        var knows=await  startpupetter("sport")
+        const isgoogle = decodeURIComponent(ctx.url.searchParams.get("google") || "falsee");
+
+        if(isgoogle=="false"){
+        let knows :string[][]=[]
+        try{
+         knows=await  startpupetter(message)
+        }catch{
+          const resp = await ctx.render();
+          return new Response("Sorry es versuchen gerade zu viele leute gleichzeitig versuche es nochmal (;");
+          return resp;        }
         if(knows.length>1){
+
           ispuppet=true;
           listoflinks=knows;
           for(var i of listoflinks[1]){
             console.log(i)
 
           }
+
+        }
         }else{
         const queryResult = await search({
             query: "site:https://knowunity.de/knows/ "+message,
@@ -78,10 +91,12 @@ class Link  {
       return ctx.render({ foo: listoflinks ,frompuppet:ispuppet});
     },
   };
-export default  async function Search(probs:PageProps<Data>) {
-    var savesignal:Signal<string[]>= useSignal([])
-  
-    
+
+async function firstdunf(sig:Signal<string[]>) {
+    sig.value=["hello this has been edited bny firstdunf"]
+}
+
+export default   function Search(probs:PageProps<Data>) {
 
 
     const url = probs.url
@@ -102,8 +117,8 @@ export default  async function Search(probs:PageProps<Data>) {
     }
 
     return (
-            <>
-            <Searchfield></Searchfield>
+            <>            
+            <Searchfield searchgoogle="true" textinput="Search Knows through Google" ></Searchfield>
             <br></br>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
@@ -147,7 +162,7 @@ function extractUUID(url: string): string | "" {
 
 
 
-async function startpupetter(searchinput:string):Promise<string[][]>{
+async function startpupetter(searchinput:string,pagestart:number=0):Promise<string[][]>{
   var theultimatelist:string[][]=[];
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -176,7 +191,7 @@ async function startpupetter(searchinput:string):Promise<string[][]>{
         const loginbuttt = await page.waitForSelector('::-p-xpath(/html/body/div[2]/div/div/div/div/div[2]/div/div[2]/div)');
         if(loginbuttt) {
              console.log("element found");
-        await getknows(searchinput).then((value) => {
+        await getknows(searchinput,pagestart).then((value) => {
           for (let i = 0; i < value.length; i++) {
          //  console.log(value[i][0]); 0 is secret imag code
           //  console.log(value[i][1]); 1 is title
@@ -205,14 +220,14 @@ async function startpupetter(searchinput:string):Promise<string[][]>{
   
   
   
-  async function getknows(theurlsearch:string):Promise<string[][]>{
+  async function getknows(theurlsearch:string,pagestar:number):Promise<string[][]>{
     var finallist:string[][]=[];
     theurlsearch=theurlsearch.replace(" ","+");
     const theurl="https://knowunity.de/app/search?query="+ theurlsearch +"+&subjectId=&utm_content=app_header"
     await page.goto(theurl);
     const firstdiv = await page.waitForSelector('::-p-xpath(//*[@id="__next"]/div/main/div/div/main/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[1])').then(async () => {
       var broken=false
-      for (let i = 1; i < 9; i++) {
+      for (let i = 1; i < 15; i++) {
         try{  	                  
 
           let listofimgages: string[] = [];
@@ -231,14 +246,14 @@ async function startpupetter(searchinput:string):Promise<string[][]>{
                 updatedimg = match[1];
             }
             for (let i = 1; i < 20; i++) {
-              let vo=(await fetch("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")).ok
-              console.log("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")
+          //    let vo=(await fetch("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")).ok
+             // console.log("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")
 
-              if(vo==false){
-                console.log("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")
-                break;
-              }
-              listofimgages.push("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg[1]+"_image_page_"+i.toString+".webp");
+            //  if(vo==false){
+             //   console.log("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")
+              //  break;
+             // }
+              listofimgages.push("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp");
             }
            // console.log(updatedimg[1]);
             finallist.push([descText.toString(),titleText.toString(),...listofimgages]);

@@ -44,7 +44,30 @@ h1 {
   border: 1px solid #fff8d6;
   margin-top: 20px; /* Space below the header */
 }
-
+.false-input-container {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #ffffff, #e4fbff);
+  border-radius: 50px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  width: 90%; /* Default width for large screens */
+  max-width: 400px;
+  border: 1px solid #fff8d6;
+  margin-top: 20px; /* Space below the header */
+}
+.true-input-container {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(145deg, #ffffff, #eafff7);
+  border-radius: 50px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  width: 90%; /* Default width for large screens */
+  max-width: 400px;
+  border: 1px solid #fff8d6;
+  margin-top: 20px; /* Space below the header */
+}
 /* INPUT FIELD */
 .input-field {
   flex: 1;
@@ -248,10 +271,25 @@ h1 {
   box-shadow: 0 4px 15px rgba(255, 240, 182, 0.3);
   border-color: #fff0b6;
 }
-
+.false-input-container:focus-within {
+  box-shadow: 0 4px 15px rgba(255, 240, 182, 0.3);
+  border-color: #fff0b6;
+}
+.true-input-container:focus-within {
+  box-shadow: 0 4px 15px rgba(255, 240, 182, 0.3);
+  border-color: #fff0b6;
+}
 /* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
   .input-container {
+    width: 95%; /* Wider on smaller screens */
+    max-width: 500px;
+  }
+  .false-input-container {
+    width: 95%; /* Wider on smaller screens */
+    max-width: 500px;
+  }
+  .true-input-container {
     width: 95%; /* Wider on smaller screens */
     max-width: 500px;
   }
@@ -264,7 +302,14 @@ h1 {
     border-radius: 20px; /* Slightly reduced border radius for better fit */
     padding: 8px; /* More padding to make space for a larger input */
   }
-
+  .false-input-container {
+    width: 95%; /* Wider on smaller screens */
+    max-width: 500px;
+  }
+  .true-input-container {
+    width: 95%; /* Wider on smaller screens */
+    max-width: 500px;
+  }
   .input-field {
     padding: 16px 20px; /* Larger padding for easier typing */
     font-size: 20px; /* Bigger text for better readability */

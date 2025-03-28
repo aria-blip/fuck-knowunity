@@ -14,6 +14,9 @@ export const handler: Handlers = {
       for(var imurl of urls){
 
         var getimage= await fetch("https://content-eu-central-1.knowunity.com/CONTENT/QUkhByURaHXRCSRtanFc_image_page_1.webp")
+        if(getimage.ok==false){
+          break;
+        }
         var imageBuffer = await getimage.arrayBuffer();
         var image = new Uint8Array(imageBuffer);
   
@@ -21,7 +24,12 @@ export const handler: Handlers = {
         var getimage= await fetch(imurl)
         var imageBuffer = await getimage.arrayBuffer();
         var image = new Uint8Array(imageBuffer);
+        try{
         doc.addImage(image, 'WEBP', 0, 0, 210, 297, "page"+i);
+        }
+        catch(e){
+          break
+        }
         doc.addPage();
 
         i++
@@ -41,5 +49,6 @@ export const handler: Handlers = {
   };
 
 export default function Greet(props: PageProps) {
+
   return <div>Hello {props.params.name}</div>;
 }

@@ -27,7 +27,11 @@ return (
 
 
 
-<div class="card">
+<div class="card" onClick={ () => {
+
+const urlParams = cardimage.map(url => `url=${encodeURIComponent(url)}`).join('&');
+globalThis.location.href = `../?${urlParams}`;
+}}>
 <div class="card-content">
     <h2 class="card-title">{cardtitle}</h2>
     <div class="d-flex align-items-center justify-content-between">
@@ -38,17 +42,19 @@ const urlParams = cardimage.map(url => `url=${encodeURIComponent(url)}`).join('&
 globalThis.location.href = `../greet/download?${urlParams}`;
  
 }}>
-      <img src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Download Icon" class="download-icon"></img>
+      <img       onError={(e) => (e.currentTarget.style.display = "none")} 
+ src="https://cdn-icons-png.flaticon.com/512/0/532.png" alt="Download Icon" class="download-icon"></img>
       </button>
     </div>
   </div>
 
-  {cardimage.length > 1 ? (
+  {cardimage.length > 100 ? (
   <div id={sanitizedId} class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       {cardimage.slice(0, 6).map((img, index) => ( // Maximal 6 Bilder
         <div class={`carousel-item ${index === 0 ? "active" : ""}`}>
-          <img src={img} class="d-block w-100" alt="Slide" />
+          <img       onError={(e) => (e.currentTarget.style.display = "none")} 
+ src={img} class="d-block w-100" alt="Slide" />
         </div>
       ))}
     </div>
@@ -65,7 +71,12 @@ globalThis.location.href = `../greet/download?${urlParams}`;
   </div>
 ) : (
   <div class="card-image">
-    <img src={cardimage[0]} class="d-block w-100" alt="Card Image" />
+    <img 
+      src={cardimage[0]} 
+      onError={(e) => (e.currentTarget.style.display = "none")} 
+      class="d-block w-100" 
+      alt="Card Image" 
+    />
   </div>
 )}
     </div>
