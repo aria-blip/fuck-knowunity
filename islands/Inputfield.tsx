@@ -13,7 +13,7 @@ interface Props {
   textvalue : Signal<string>; // 🔹 Accept signal as prop
 }
 
- export default function Inputfield({textvalue}:Props) {
+ export default  function Inputfield({textvalue}:Props) {
     var items:Signal<string[]>=useSignal([])
     var isvisible:Signal<string>=useSignal("none")
 

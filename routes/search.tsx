@@ -3,6 +3,7 @@ import { HandlerContext, Handlers, PageProps } from "$fresh/server.ts";
 import { needsEncoding } from "$std/media_types/_util.ts";
 import { parseJsrSpecifier } from "https://jsr.io/@luca/esbuild-deno-loader/0.11.0/src/shared.ts";
 import puppeteer from "npm:puppeteer";
+import { useSignal ,Signal} from "@preact/signals";
 
 import {
     search,
@@ -44,6 +45,10 @@ class Link  {
         if(knows.length>1){
           ispuppet=true;
           listoflinks=knows;
+          for(var i of listoflinks[1]){
+            console.log(i)
+
+          }
         }else{
         const queryResult = await search({
             query: "site:https://knowunity.de/knows/ "+message,
@@ -73,13 +78,19 @@ class Link  {
       return ctx.render({ foo: listoflinks ,frompuppet:ispuppet});
     },
   };
-export default  function Search(probs:PageProps<Data>) {
+export default  async function Search(probs:PageProps<Data>) {
+    var savesignal:Signal<string[]>= useSignal([])
+  
+    
+
+
     const url = probs.url
     var listof:preact.JSX.Element[]=[];
+
     if (!probs.data || !probs.data.foo) {
       return <p>No data available.</p>;
   }
-
+  
     for(var a of probs.data.foo){
         
         
@@ -169,7 +180,6 @@ async function startpupetter(searchinput:string):Promise<string[][]>{
           for (let i = 0; i < value.length; i++) {
          //  console.log(value[i][0]); 0 is secret imag code
           //  console.log(value[i][1]); 1 is title
-            console.log(value[i][1]); // 2 is desc
 
 
           }
@@ -202,7 +212,7 @@ async function startpupetter(searchinput:string):Promise<string[][]>{
     await page.goto(theurl);
     const firstdiv = await page.waitForSelector('::-p-xpath(//*[@id="__next"]/div/main/div/div/main/div[1]/div/div[2]/div/div[2]/div/div[1]/div[2]/div[1])').then(async () => {
       var broken=false
-      for (let i = 1; i < 250; i++) {
+      for (let i = 1; i < 9; i++) {
         try{  	                  
 
           let listofimgages: string[] = [];
@@ -221,12 +231,13 @@ async function startpupetter(searchinput:string):Promise<string[][]>{
                 updatedimg = match[1];
             }
             for (let i = 1; i < 20; i++) {
-              let vo=(await fetch("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg[1]+"_image_page_"+i.toString+".webp")).ok
+              let vo=(await fetch("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")).ok
+              console.log("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")
 
               if(vo==false){
+                console.log("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg+"_image_page_"+i+".webp")
                 break;
               }
-
               listofimgages.push("https://content-eu-central-1.knowunity.com/CONTENT/"+updatedimg[1]+"_image_page_"+i.toString+".webp");
             }
            // console.log(updatedimg[1]);
